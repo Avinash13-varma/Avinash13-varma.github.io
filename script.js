@@ -6,6 +6,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalPrice = document.querySelector('.total-price');
     const buyBtn = document.querySelector('.btn-buy');
     let cartItems = [];
+    function updateCartCount() {
+    const cartCountEl = document.querySelector('.cart-item-count');
+    let totalCount = 0;
+    cartItems.forEach(item => {
+        totalCount += item.quantity;
+    });
+    cartCountEl.textContent = totalCount;
+    cartCountEl.style.display = totalCount > 0 ? 'inline-block' : 'none';
+}
+
+    cartIcon.addEventListener("click", () => {
+    cart.classList.add("active");
+});
+
+// Close cart
+closeCart.addEventListener("click", () => {
+    cart.classList.remove("active");
+});
 
     cartIcon.addEventListener('click', () => {
         cart.style.display = 'block';
@@ -15,23 +33,27 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.style.display = 'none';
     });
 
-    document.querySelectorAll('.add-cart').forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            const productBox = btn.closest('.product-box');
-            const title = productBox.querySelector('.product-title').innerText;
-            const price = parseFloat(productBox.querySelector('.price').innerText);
-            const imgSrc = productBox.querySelector('img').src;
+    document.querySelectorAll('.add-cart').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const productBox = btn.closest('.product-box');
+        const title = productBox.querySelector('.product-title').innerText;
+        const price = parseFloat(productBox.querySelector('.price').innerText);
+        const imgSrc = productBox.querySelector('img').src;
+        const size = productBox.querySelector('.size').value;
 
-            const existingItem = cartItems.find(item => item.title === title);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cartItems.push({ title, price, imgSrc, quantity: 1 });
-            }
+        const existingItem = cartItems.find(item => item.title === title && item.size === size);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cartItems.push({ title, price, imgSrc, size, quantity: 1 });
+        }
 
-            renderCart();
-        });
+        renderCart();
     });
+});
+
+
+    
 
     function renderCart() {
         cartContent.innerHTML = '';
@@ -40,22 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const box = document.createElement('div');
             box.className = 'cart-box';
             box.innerHTML = `
-                <img src="${item.imgSrc}" class="cart-img">
-                <div class="cart-detail">
-                    <h2 class="cart-product-title">${item.title}</h2>
-                    <span class="cart-price">${item.price}</span>
-                    <div class="cart-quantity">
-                        <button class="decrement" data-index="${i}">-</button>
-                        <span class="number">${item.quantity}</span>
-                        <button class="increment" data-index="${i}">+</button>
-                    </div>
-                </div>
-                <i class="ri-delete-bin-line cart-remove" data-index="${i}"></i>
-            `;
+    <img src="${item.imgSrc}" class="cart-img">
+    <div class="cart-detail">
+        <h2 class="cart-product-title">${item.title}</h2>
+        <span class="cart-price">₹${item.price}</span>
+        <div class="cart-size">Size: ${item.size}</div>
+        <div class="cart-quantity">
+            <button class="decrement" data-index="${i}">-</button>
+            <span class="number">${item.quantity}</span>
+            <button class="increment" data-index="${i}">+</button>
+        </div>
+    </div>
+    <i class="ri-delete-bin-line cart-remove" data-index="${i}"></i>
+`;
             cartContent.appendChild(box);
         });
 
         updateTotal();
+         updateCartCount();
 
         document.querySelectorAll('.increment').forEach(btn => {
             btn.addEventListener('click', e => {
@@ -84,7 +108,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderCart();
             });
         });
+        
     }
+
 
     function updateTotal() {
         let total = 0;
