@@ -170,7 +170,7 @@ buyBtn.addEventListener('click', () => {
     });
     orderSummary += `\nTotal: ₹${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`;
 
-        alert(`${orderSummary}\n\nAddress: ${address}\nPayment: ${paymentMethod}\n\n**Note: Please send a screenshot of Payment Transactions and order confirmation message to this Number: 9121343136`
+        alert(`${orderSummary}\n\nAddress: ${address}\nPayment: ${paymentMethod}\n\n**Note: Please send a screenshot of Payment Transactions and order confirmation message to this Number: +91 9764456999`
     );
 
         alert("Thank you for your order!");
