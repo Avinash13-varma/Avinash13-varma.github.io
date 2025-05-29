@@ -163,14 +163,14 @@ buyBtn.addEventListener('click', () => {
     if (!paymentMethod) return alert("Order cancelled. Payment required.");
 
     // 🔽 Create the order summary
-    let orderSummary = "Order Conformation Message:\n\nYour Items:\n";
+    let orderSummary = "Order Conformation Message:\nYour Items:\n";
     cartItems.forEach(item => {
         const itemTotal = (item.price * item.quantity).toFixed(2);
         orderSummary += `${item.title} (${item.size}) x ${item.quantity}: ₹${itemTotal}\n`;
     });
-    orderSummary += `\nTotal: ₹${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`;
+    orderSummary += `Total: ₹${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}`;
 
-        alert(`${orderSummary}\n\nAddress: ${address}\nPayment: ${paymentMethod}\n\n**Note: Please send a screenshot of Payment Transactions and order confirmation message to this Number: +91 9764456999`
+        alert(`${orderSummary}\nAddress: ${address}\nPayment: ${paymentMethod}\n**Note: Please send a screenshot of Payment Transactions and order confirmation message to this Number: +91 9764456999`
     );
 
         alert("Thank you for your order!");
